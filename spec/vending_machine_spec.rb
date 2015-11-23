@@ -7,16 +7,10 @@ describe VendingMachine do
   subject { described_class.new() }
 
   describe '#valid_coin?' do
-    it 'returns true for a quarter' do
-      expect(subject.valid_coin? quarter).to eq true
-    end
-
-    it 'returns true for a dime' do
-      expect(subject.valid_coin? dime).to eq true
-    end
-
-    it 'returns true for a nickel' do
-      expect(subject.valid_coin? nickel).to eq true
+    [:quarter, :dime, :nickel].each do |coin|
+      it "returns true for a #{coin}" do
+        expect(subject.valid_coin?(public_send coin)).to eq true
+      end
     end
 
     it 'returns false for a penny' do
