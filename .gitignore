@@ -1,3 +1,4 @@
 *~
 *.swp
+.rspec
 .DS_Store
