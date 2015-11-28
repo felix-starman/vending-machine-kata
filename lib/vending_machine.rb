@@ -1,4 +1,5 @@
 class VendingMachine
+  attr_reader :amount_inserted
 
   VALID_COINS = [
     { value: 25, weight: 5.670, diameter: 24.26,},
@@ -6,9 +7,28 @@ class VendingMachine
     { value: 5, weight: 5.000, diameter: 21.21,},
   ]
 
-  def valid_coin?(coin)
-    VALID_COINS.one? do |valid|
-      valid[:weight] == coin.weight && valid[:diameter] == coin.diameter
+  def initialize
+    @amount_inserted = 0
+  end
+
+  def insert_coin(coin)
+    if valid_coin? coin
+      @amount_inserted += VALID_COINS.select do |vc|
+        compare_coin vc, coin
+      end[0][:value]
+      true
+    else
+      false
     end
+  end
+
+  def valid_coin?(coin)
+    VALID_COINS.one? { |vc| compare_coin vc, coin }
+  end
+
+  private
+
+  def compare_coin reference, subject_coin
+    reference[:weight] == subject_coin.weight && reference[:diameter] == subject_coin.diameter
   end
 end

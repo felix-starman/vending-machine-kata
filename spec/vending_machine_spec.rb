@@ -17,4 +17,31 @@ describe VendingMachine do
       expect(subject.valid_coin? penny).to eq false
     end
   end
+
+  describe '#insert_coin' do
+    let(:coin) { }
+    let(:vending_machine) { described_class.new }
+
+    subject { vending_machine.insert_coin coin }
+
+    context 'with a valid coin' do
+      let(:coin) { quarter }
+
+      it { is_expected.to eq true }
+
+      it 'increases the amount_inserted' do
+        expect { subject }.to change{vending_machine.amount_inserted}.by(25)
+      end
+    end
+
+    context 'with an invalid coin' do
+      let(:coin) { penny }
+
+      it { is_expected.to eq false }
+
+      it 'does not increase the amount_inserted' do
+        expect { subject }.not_to change{vending_machine.amount_inserted}
+      end
+    end
+  end
 end
